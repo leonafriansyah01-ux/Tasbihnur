@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#064E3B">
+<title>Tasbih Nur</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<style>
+:root{--bg:#071A15;--sf:#0D2B21;--sf2:#123a2d;--tx:#fff;--mu:#a9c4b8;--em:#047857;--em2:#064E3B;--gd:#D4AF37;--gd2:#F2D78C;--ln:#1d4a3a;--bn:68px}
+[data-theme=light]{--bg:#F7F8F3;--sf:#fff;--sf2:#eef2ea;--tx:#18231E;--mu:#4d6359;--ln:#d6dfd3;--gd:#8a6d0a;--gd2:#b08d14}
+*{box-sizing:border-box;margin:0}
+html,body{background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.45;touch-action:manipulation}
+body{min-height:100vh;padding:env(safe-area-inset-top) 0 calc(var(--bn) + env(safe-area-inset-bottom))}
+main{max-width:520px;margin:0 auto;padding:16px}
+h1{font-size:1.5rem;font-weight:700}h2{font-size:1.05rem;margin:18px 0 8px}
+.mu{color:var(--mu);font-size:.9rem}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:16px;padding:16px;margin-bottom:12px}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat b{display:block;font-size:1.6rem;color:var(--gd2)}
+[data-theme=light] .stat b{color:var(--gd)}
+button,select,input{font:inherit;color:inherit}
+button{min-height:48px;padding:0 18px;border-radius:12px;border:1px solid var(--ln);background:var(--sf2);cursor:pointer;font-weight:600}
+button.pri{background:var(--em);border-color:var(--em);color:#fff}
+button.gold{background:var(--gd);border-color:var(--gd);color:#18231E}
+button.dng{border-color:#b4443a;color:#e5766c}
+:focus-visible{outline:3px solid var(--gd2);outline-offset:2px}
+input,select{width:100%;min-height:46px;padding:0 12px;border-radius:12px;border:1px solid var(--ln);background:var(--sf2)}
+label{display:block;font-size:.85rem;margin:10px 0 4px;color:var(--mu)}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--sf);border-top:1px solid var(--ln);padding-bottom:env(safe-area-inset-bottom);z-index:5}
+nav a{flex:1;min-height:var(--bn);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:var(--mu);text-decoration:none;font-size:.78rem}
+nav a[aria-current=page]{color:var(--gd2);font-weight:700;box-shadow:inset 0 3px var(--gd)}
+nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2}
+.ar{font-size:2.2rem;text-align:center;line-height:1.7;font-family:"Amiri","Scheherazade New","Noto Naskh Arabic","Traditional Arabic",serif;direction:rtl}
+.ctr{position:relative;width:min(78vw,300px);aspect-ratio:1;margin:8px auto}
+.ctr svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ctr .num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.num b{font-size:4.5rem;line-height:1;font-variant-numeric:tabular-nums}
+.hit{display:block;width:100%;min-height:92px;font-size:1.4rem;letter-spacing:.08em;border-radius:46px;margin:10px 0;background:linear-gradient(180deg,var(--gd2),var(--gd));color:#18231E;border:0;box-shadow:0 4px 0 #8a6d0a;user-select:none;-webkit-user-select:none}
+.hit:active{transform:translateY(3px);box-shadow:0 1px 0 #8a6d0a}
+.pills{display:flex;gap:8px;flex-wrap:wrap}.pills button{min-height:44px;padding:0 14px}
+.pills button[aria-pressed=true]{background:var(--em);color:#fff;border-color:var(--gd)}
+.done{color:var(--gd2);font-weight:700;text-align:center;min-height:1.4em}
+.bars{display:flex;gap:6px;align-items:flex-end;height:110px}
+.bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;font-size:.7rem;color:var(--mu)}
+.bar i{display:block;width:100%;background:var(--em);border-radius:6px 6px 0 0;min-height:2px;border-top:2px solid var(--gd)}
+.item{display:flex;justify-content:space-between;width:100%;text-align:left;margin-bottom:8px;background:var(--sf);height:auto;padding:10px 14px}
+.badge{font-size:.75rem;padding:2px 8px;border-radius:99px;border:1px solid var(--gd)}
+dialog{background:var(--sf);color:var(--tx);border:1px solid var(--gd);border-radius:16px;padding:20px;width:min(92vw,420px);margin:auto}
+dialog::backdrop{background:#000a}
+dialog .row{margin-top:16px;justify-content:flex-end}
+.err{background:#5a1d18;color:#fff;padding:10px 14px;text-align:center;font-size:.9rem}
+.off{background:var(--gd);color:#18231E;text-align:center;font-size:.8rem;padding:3px}
+.sw{display:flex;justify-content:space-between;align-items:center;min-height:48px}
+.sw input{width:24px;height:24px;min-height:0}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div id="top"></div>
+<main id="app" aria-live="polite"></main>
+<nav aria-label="Navigasi utama">
+ <a href="#/" data-p="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Beranda</a>
+ <a href="#/tasbih" data-p="tasbih"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg>Tasbih</a>
+ <a href="#/stats" data-p="stats"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Statistik</a>
+ <a href="#/settings" data-p="settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>Pengaturan</a>
+</nav>
+<dialog id="dlg"></dialog>
+<input type="file" id="file" accept="application/json,.json" hidden>
+
+<script>
+"use strict";
+const VERSION="1.0.0",FMT=1;
+/* ===== Data dzikir (terpisah agar mudah diperiksa) ===== */
+const DHIKR=[
+ {id:"subhanallah",name:"Subhanallah",arabic:"سُبْحَانَ اللَّهِ",transliteration:"Subhanallah",translation:"Maha Suci Allah"},
+ {id:"alhamdulillah",name:"Alhamdulillah",arabic:"الْحَمْدُ لِلَّهِ",transliteration:"Alhamdulillah",translation:"Segala puji bagi Allah"},
+ {id:"allahuakbar",name:"Allahu Akbar",arabic:"اللَّهُ أَكْبَرُ",transliteration:"Allahu Akbar",translation:"Allah Maha Besar"},
+ {id:"astaghfirullah",name:"Astaghfirullah",arabic:"أَسْتَغْفِرُ اللَّهَ",transliteration:"Astaghfirullah",translation:"Aku memohon ampun kepada Allah"},
+ {id:"lailaha",name:"La ilaha illallah",arabic:"لَا إِلَٰهَ إِلَّا اللَّهُ",transliteration:"La ilaha illallah",translation:"Tidak ada tuhan selain Allah"}
+].map(d=>({...d,isCustom:false,createdAt:"2026-01-01T00:00:00.000Z"}));
+
+/* ===== Counter murni (tanpa UI) ===== */
+const C={
+ inc:s=>({...s,count:s.count+1,updatedAt:new Date().toISOString()}),
+ undo:s=>s.count<=0?s:{...s,count:s.count-1,updatedAt:new Date().toISOString()},
+ reset:s=>({...s,count:0,updatedAt:new Date().toISOString()}),
+ reached:s=>s.count>=s.target
+};
+/* ===== Tanggal ===== */
+const pad=n=>String(n).padStart(2,"0");
+const ld=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const mondayOf=d=>{const x=new Date(d.getFullYear(),d.getMonth(),d.getDate());x.setDate(x.getDate()-(x.getDay()+6)%7);return ld(x)};
+const dayOf=s=>ld(new Date(s.startedAt)); // sesi dikelompokkan per tanggal lokal saat dimulai
+/* ===== Statistik (dihitung dari riwayat sesi) ===== */
+function agg(list){const m={};for(const s of list){if(!s.count)continue;const k=dayOf(s);const o=m[k]||(m[k]={c:0,n:0});o.c+=s.count;if(s.status==="completed")o.n++}return m}
+function stats(list,daily,now=new Date()){
+ const m=agg(list),t=ld(now),wk=mondayOf(now),mo=t.slice(0,7);let w=0,mn=0,reached=0,done=0;
+ for(const k in m){if(k>=wk&&k<=t)w+=m[k].c;if(k.startsWith(mo))mn+=m[k].c;if(m[k].c>=daily)reached++;done+=m[k].n}
+ const week=[];for(let i=6;i>=0;i--){const x=new Date(now.getFullYear(),now.getMonth(),now.getDate()-i);const k=ld(x);week.push({k,label:["Min","Sen","Sel","Rab","Kam","Jum","Sab"][x.getDay()],c:m[k]?m[k].c:0})}
+ return{today:m[t]?m[t].c:0,week:w,month:mn,done,reached,days:week,last7:week.reduce((a,b)=>a+b.c,0)}
+}
+/* ===== IndexedDB ===== */
+let db;
+const openDB=()=>new Promise((res,rej)=>{if(!window.indexedDB)return rej(new Error("IndexedDB tidak tersedia"));const r=indexedDB.open("tasbihnur",1);
+ r.onupgradeneeded=e=>{const d=r.result;if(e.oldVersion<1){d.createObjectStore("dhikr",{keyPath:"id"});d.createObjectStore("sessions",{keyPath:"id"});d.createObjectStore("kv",{keyPath:"key"})}};
+ r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);r.onblocked=()=>rej(new Error("Database terblokir"))});
+const tx=(stores,mode,fn)=>new Promise((res,rej)=>{const t=db.transaction(stores,mode);let out;const rq=fn(t);if(rq)rq.onsuccess=()=>out=rq.result;t.oncomplete=()=>res(out);t.onerror=()=>rej(t.error);t.onabort=()=>rej(t.error||new Error("Transaksi dibatalkan"))});
+const put=(s,v)=>tx(s,"readwrite",t=>t.objectStore(s).put(v));
+const getAll=s=>tx(s,"readonly",t=>t.objectStore(s).getAll());
+/* ===== State ===== */
+const DEF={key:"settings",theme:"system",dailyTarget:300,defaultSessionTarget:33,vibrationEnabled:true,soundEnabled:false,lastDhikr:"subhanallah"};
+let ST={...DEF},CUSTOM=[],S=[],cur=null,sync="ok",queue=Promise.resolve(),filterDate="",noDB=false;
+const allDhikr=()=>[...DHIKR,...CUSTOM];
+const dh=id=>allDhikr().find(d=>d.id===id)||DHIKR[0];
+const uid=()=>(crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2));
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const $=s=>document.querySelector(s);
+function showErr(msg){$("#top").innerHTML=msg?`<div class="err" role="alert">${esc(msg)}</div>`:""}
+function persist(store,val){ // tulis berurutan; status "tersimpan" hanya setelah transaksi sukses
+ sync="saving";const v=JSON.parse(JSON.stringify(val));
+ queue=queue.then(()=>noDB?Promise.reject(new Error("Penyimpanan lokal tidak tersedia")):put(store,v)).then(()=>{sync="ok";showErr("");syncBadge()}).catch(e=>{sync="fail";showErr("Gagal menyimpan: "+(e&&e.message||e)+". Hitungan terbaru belum aman tersimpan.");syncBadge()});
+ return queue;
+}
+function setCur(n){cur=n;const i=S.findIndex(s=>s.id===n.id);if(i>=0)S[i]=n;else S.push(n);persist("sessions",n)}
+function newSession(){const now=new Date().toISOString();return{id:uid(),dhikrId:ST.lastDhikr,count:0,target:ST.defaultSessionTarget,status:"active",startedAt:now,updatedAt:now,completedAt:null}}
+function endSession(){ // simpan eksplisit: >=target = completed, selain itu partial; hitungan 0 dibuang
+ if(!cur)return;const now=new Date().toISOString();
+ if(cur.count===0){const id=cur.id;S=S.filter(s=>s.id!==id);cur=null;queue=queue.then(()=>noDB?0:tx("sessions","readwrite",t=>t.objectStore("sessions").delete(id))).catch(()=>{});return}
+ setCur({...cur,status:cur.count>=cur.target?"completed":"partial",completedAt:now,updatedAt:now});cur=null;
+}
+/* ===== Umpan balik ===== */
+let actx;
+function feedback(done){
+ if(ST.vibrationEnabled&&navigator.vibrate)navigator.vibrate(done?[40,40,80]:12);
+ if(ST.soundEnabled){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();o.frequency.value=done?880:520;g.gain.value=.06;o.connect(g);g.connect(actx.destination);o.start();o.stop(actx.currentTime+.05)}catch(e){}}
+}
+/* ===== Tema ===== */
+function applyTheme(){const t=ST.theme==="system"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):ST.theme;document.documentElement.dataset.theme=t;document.querySelector('meta[name=theme-color]').content=t==="dark"?"#064E3B":"#F7F8F3";try{localStorage.setItem("tn-theme",ST.theme)}catch(e){}}
+matchMedia("(prefers-color-scheme: light)").addEventListener("change",applyTheme);
+function saveSettings(p){ST={...ST,...p};persist("kv",ST);applyTheme()}
+/* ===== Dialog ===== */
+function dialog(html,onOk,okLabel="OK",cancel="Batal",danger){
+ const d=$("#dlg");d.innerHTML=`<form method="dialog"><div>${html}</div><div class="row"><button value="c" class="">${cancel}</button>${okLabel?`<button value="ok" class="${danger?"dng":"pri"}">${okLabel}</button>`:""}</div></form>`;
+ d.onclose=()=>{if(d.returnValue==="ok"&&onOk)onOk();d.returnValue=""};d.showModal();
+}
+/* ===== Render ===== */
+const page=()=>(location.hash.replace("#/","")||"home");
+function render(){
+ const p=page();document.querySelectorAll("nav a").forEach(a=>a.toggleAttribute("aria-current",a.dataset.p===(p||"home")&&true)||0);
+ document.querySelectorAll("nav a").forEach(a=>{if(a.dataset.p===(p||"home"))a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+ const v={home:vHome,tasbih:vTasbih,stats:vStats,settings:vSettings}[p]||vHome;$("#app").innerHTML=v();bind(p);window.scrollTo(0,0);
+}
+const fmt=n=>n.toLocaleString("id-ID");
+function ring(cnt,tgt){const R=90,L=2*Math.PI*R,f=Math.min(cnt/Math.max(tgt,1),1);return`<svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="${R}" fill="none" stroke="var(--ln)" stroke-width="10"/><circle id="arc" cx="100" cy="100" r="${R}" fill="none" stroke="var(--gd)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${L}" stroke-dashoffset="${L*(1-f)}"/></svg>`}
+function vHome(){
+ const s=stats(S,ST.dailyTarget),pc=Math.min(100,Math.round(s.today/ST.dailyTarget*100)),now=new Date();
+ const part=cur&&cur.count>0?`<div class="card"><div class="mu">Sesi terakhir belum selesai</div><div class="row"><div><b>${esc(dh(cur.dhikrId).name)}</b><div class="mu">${cur.count} / ${cur.target}</div></div><a href="#/tasbih"><button class="pri">Lanjutkan</button></a></div></div>`:"";
+ return`<div class="row"><div><h1>Tasbih Nur</h1><div class="mu">Assalamu'alaikum</div></div><span class="mu">${now.toLocaleDateString("id-ID",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</span></div>
+ <div class="card" style="margin-top:14px"><div class="row stat"><div><span class="mu">Dzikir hari ini</span><b>${fmt(s.today)}</b></div><div style="text-align:right"><span class="mu">Target ${fmt(ST.dailyTarget)}</span><b>${pc}%</b></div></div><progress max="100" value="${pc}" style="width:100%;margin-top:10px;accent-color:var(--gd)" aria-label="Progres target harian"></progress></div>
+ <a href="#/tasbih"><button class="gold" style="width:100%;min-height:60px;font-size:1.1rem">Mulai Dzikir</button></a>
+ <div style="height:12px"></div>${part}
+ <h2>7 hari terakhir</h2><div class="card stat"><span class="mu">Total mingguan (mulai Senin)</span><b>${fmt(s.week)}</b><div class="mu">${s.reached} hari mencapai target · ${s.done} sesi selesai</div></div>`;
+}
+function vTasbih(){
+ const c=cur||{...newSession()},d=dh(c.dhikrId),tg=c.target,custom=![33,99,100].includes(tg);
+ return`<div class="row"><h1>Tasbih</h1><span id="sync" class="badge"></span></div>
+ <div class="card"><label for="dsel" style="margin-top:0">Dzikir</label><div class="row" style="flex-wrap:nowrap"><select id="dsel">${allDhikr().map(x=>`<option value="${esc(x.id)}" ${x.id===c.dhikrId?"selected":""}>${esc(x.name)}</option>`).join("")}</select><button id="addd" aria-label="Tambah dzikir khusus">＋</button></div>
+ ${d.arabic?`<div class="ar" lang="ar">${esc(d.arabic)}</div>`:""}<div style="text-align:center"><b>${esc(d.transliteration||d.name)}</b>${d.translation?`<div class="mu">${esc(d.translation)}</div>`:""}</div></div>
+ <div class="ctr">${ring(c.count,tg)}<div class="num"><b id="cnt" aria-live="off">${c.count}</b><span class="mu" id="tgl">target ${tg}</span></div></div>
+ <div class="done" id="done" role="status"></div>
+ <button class="hit" id="hit" aria-label="Hitung">HITUNG</button>
+ <div class="row" style="flex-wrap:nowrap"><button id="undo" style="flex:1">UNDO</button><button id="reset" class="dng" style="flex:1">RESET</button><button id="end" style="flex:1">Akhiri Sesi</button></div>
+ <h2>Target sesi</h2><div class="pills">${[33,99,100].map(n=>`<button data-t="${n}" aria-pressed="${tg===n}">${n}</button>`).join("")}<button id="tcus" aria-pressed="${custom}">${custom?"Custom "+tg:"Custom"}</button></div>
+ <div class="card" style="margin-top:14px"><div class="sw"><span>Getar</span><input type="checkbox" id="vib" ${ST.vibrationEnabled?"checked":""} aria-label="Getaran"></div><div class="sw"><span>Suara</span><input type="checkbox" id="snd" ${ST.soundEnabled?"checked":""} aria-label="Suara"></div></div>`;
+}
+function updCounter(){
+ const c=cur||{count:0,target:ST.defaultSessionTarget};const e=$("#cnt");if(!e)return;e.textContent=c.count;
+ const a=$("#arc");if(a){const L=2*Math.PI*90;a.setAttribute("stroke-dashoffset",L*(1-Math.min(c.count/Math.max(c.target,1),1)))}
+ $("#done").textContent=c.count>=c.target&&c.count>0?"✓ Target tercapai — boleh lanjut":"";syncBadge();
+}
+function syncBadge(){const b=$("#sync");if(b)b.textContent=sync==="ok"?"Tersimpan":sync==="saving"?"Menyimpan…":"Gagal simpan"}
+function vStats(){
+ const s=stats(S,ST.dailyTarget),pc=Math.min(100,Math.round(s.today/ST.dailyTarget*100)),mx=Math.max(1,...s.days.map(x=>x.c));
+ let list=S.filter(x=>x.count>0).sort((a,b)=>b.startedAt.localeCompare(a.startedAt));if(filterDate)list=list.filter(x=>dayOf(x)===filterDate);
+ return`<h1>Statistik</h1><p class="mu">Hitungan = jumlah ketukan. Sesi = satu rangkaian dzikir yang diakhiri.</p>
+ <div class="grid" style="margin-top:12px">${[["Hari ini",fmt(s.today)],["Minggu ini",fmt(s.week)],["Bulan ini",fmt(s.month)],["Sesi selesai",s.done],["Hari capai target",s.reached],["Progres hari ini",pc+"%"]].map(([l,v])=>`<div class="card stat"><span class="mu">${l}</span><b>${v}</b></div>`).join("")}</div>
+ <h2>7 hari terakhir</h2><div class="card"><div class="bars" role="img" aria-label="Grafik hitungan 7 hari terakhir">${s.days.map(x=>`<div class="bar"><span>${x.c}</span><i style="height:${Math.round(x.c/mx*80)}%"></i><span>${x.label}</span></div>`).join("")}</div></div>
+ <h2>Riwayat</h2><label for="fd" style="margin-top:0">Filter tanggal</label><div class="row" style="flex-wrap:nowrap"><input type="date" id="fd" value="${filterDate}"><button id="fclr">Hapus</button></div><div style="height:10px"></div>
+ ${list.length?list.map(x=>`<button class="item" data-sid="${x.id}"><span><b>${esc(dh(x.dhikrId).name)}</b><br><span class="mu">${new Date(x.startedAt).toLocaleString("id-ID",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})}</span></span><span style="text-align:right">${x.count}/${x.target}<br><span class="badge">${{completed:"Selesai",partial:"Parsial",active:"Berjalan"}[x.status]}</span></span></button>`).join(""):`<div class="card mu" style="text-align:center">Belum ada riwayat${filterDate?" pada tanggal ini":""}. Mulai dzikir untuk melihat catatan di sini.</div>`}`;
+}
+function vSettings(){
+ return`<h1>Pengaturan</h1>
+ <div class="card"><label for="th" style="margin-top:0">Tema</label><select id="th">${[["system","Ikuti sistem"],["light","Terang"],["dark","Gelap"]].map(([v,l])=>`<option value="${v}" ${ST.theme===v?"selected":""}>${l}</option>`).join("")}</select>
+ <label for="dt">Target harian (hitungan)</label><input id="dt" type="number" min="1" max="100000" value="${ST.dailyTarget}">
+ <label for="st">Target sesi default</label><input id="st" type="number" min="1" max="100000" value="${ST.defaultSessionTarget}">
+ <div class="sw"><span>Getar</span><input type="checkbox" id="vib" ${ST.vibrationEnabled?"checked":""} aria-label="Getaran"></div><div class="sw"><span>Suara</span><input type="checkbox" id="snd" ${ST.soundEnabled?"checked":""} aria-label="Suara"></div></div>
+ <h2>Cadangan</h2><div class="card"><div class="row"><button id="exp" class="pri">Ekspor JSON</button><button id="imp">Impor JSON</button></div><p class="mu" style="margin-top:10px">Impor menggabungkan (merge): sesi dan dzikir baru ditambahkan, data yang sudah ada tidak ditimpa.</p></div>
+ <h2>Data</h2><div class="card"><p class="mu">Data disimpan di perangkat ini (IndexedDB), tanpa akun dan tanpa server. Browser dapat menghapus data lokal saat Anda membersihkan data situs atau ruang penyimpanan penuh — ekspor cadangan secara berkala.</p><button id="wipe" class="dng" style="margin-top:12px">Hapus semua data</button></div>
+ <h2>Pasang di HP</h2><div class="card mu">Di Chrome Android buka menu ⋮ lalu pilih “Tambahkan ke layar utama”. Setelah dibuka sekali secara online, aplikasi bisa dipakai offline.</div>
+ <p class="mu" style="text-align:center">Tasbih Nur v${VERSION}</p>`;
+}
+/* ===== Event ===== */
+function bind(p){
+ if(p==="tasbih"){
+  updCounter();
+  $("#hit").onclick=()=>{const n=C.inc(cur||newSession());const was=C.reached(cur||{count:0,target:n.target});setCur(n);const r=C.reached(n)&&!was;feedback(r);updCounter()};
+  $("#undo").onclick=()=>{if(!cur||cur.count===0)return;setCur(C.undo(cur));updCounter()};
+  $("#reset").onclick=()=>{if(!cur||cur.count===0)return;dialog(`<h2 style="margin:0 0 8px">Reset sesi ini?</h2><p>Hitungan sesi aktif (${cur.count}) kembali ke 0. Riwayat dan statistik lama tidak berubah.</p>`,()=>{setCur(C.reset(cur));updCounter()},"Reset","Batal",true)};
+  $("#end").onclick=()=>{if(!cur||cur.count===0){showErr("");return}dialog(`<h2 style="margin:0 0 8px">Akhiri sesi?</h2><p>${cur.count} hitungan akan disimpan ke riwayat sebagai ${cur.count>=cur.target?"sesi selesai":"sesi parsial"}.</p>`,()=>{endSession();render()},"Akhiri")};
+  $("#dsel").onchange=e=>{const id=e.target.value;if(cur&&cur.count>0)endSession(); // hitungan tidak hilang: sesi lama disimpan
+   cur=null;saveSettings({lastDhikr:id});render()};
+  document.querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>setTarget(+b.dataset.t));
+  $("#tcus").onclick=()=>dialog(`<h2 style="margin:0 0 8px">Target custom</h2><label for="ct">Jumlah hitungan</label><input id="ct" type="number" min="1" max="100000" value="${(cur||{}).target||ST.defaultSessionTarget}">`,()=>{const v=parseInt($("#ct").value);if(v>=1&&v<=100000)setTarget(v)},"Atur");
+  $("#addd").onclick=()=>dialog(`<h2 style="margin:0 0 8px">Dzikir khusus</h2><label for="nn">Nama (wajib)</label><input id="nn" maxlength="60"><label for="na">Teks Arab (opsional)</label><input id="na" lang="ar" dir="rtl"><label for="nt">Transliterasi (opsional)</label><input id="nt" maxlength="120"><label for="ni">Arti (opsional)</label><input id="ni" maxlength="200">`,()=>{const n=$("#nn").value.trim();if(!n)return;const x={id:uid(),name:n,arabic:$("#na").value.trim(),transliteration:$("#nt").value.trim(),translation:$("#ni").value.trim(),isCustom:true,createdAt:new Date().toISOString()};CUSTOM.push(x);persist("dhikr",x);if(cur&&cur.count>0)endSession();cur=null;saveSettings({lastDhikr:x.id});render()},"Simpan");
+  $("#vib").onchange=e=>saveSettings({vibrationEnabled:e.target.checked});$("#snd").onchange=e=>saveSettings({soundEnabled:e.target.checked});
+ }
+ if(p==="stats"){
+  $("#fd").onchange=e=>{filterDate=e.target.value;render()};$("#fclr").onclick=()=>{filterDate="";render()};
+  document.querySelectorAll("[data-sid]").forEach(b=>b.onclick=()=>{const x=S.find(s=>s.id===b.dataset.sid),f=t=>t?new Date(t).toLocaleString("id-ID"):"—";
+   dialog(`<h2 style="margin:0 0 8px">${esc(dh(x.dhikrId).name)}</h2><p>Hitungan: <b>${x.count}</b> dari target ${x.target}</p><p>Status: ${{completed:"Selesai",partial:"Parsial",active:"Berjalan"}[x.status]}</p><p>Mulai: ${f(x.startedAt)}</p><p>Selesai: ${f(x.completedAt)}</p>`,null,"","Tutup")});
+ }
+ if(p==="settings"){
+  $("#th").onchange=e=>saveSettings({theme:e.target.value});
+  const num=(id,k)=>$(id).onchange=e=>{const v=parseInt(e.target.value);if(v>=1&&v<=100000)saveSettings({[k]:v});else e.target.value=ST[k]};
+  num("#dt","dailyTarget");num("#st","defaultSessionTarget");
+  $("#vib").onchange=e=>saveSettings({vibrationEnabled:e.target.checked});$("#snd").onchange=e=>saveSettings({soundEnabled:e.target.checked});
+  $("#exp").onclick=exportJSON;$("#imp").onclick=()=>$("#file").click();
+  $("#wipe").onclick=()=>dialog(`<h2 style="margin:0 0 8px">Hapus semua data?</h2><p>Semua sesi, riwayat, dan dzikir khusus akan dihapus permanen dari perangkat ini. Ekspor cadangan dulu bila perlu.</p>`,async()=>{try{await tx(["sessions","dhikr"],"readwrite",t=>{t.objectStore("sessions").clear();t.objectStore("dhikr").clear()});S=[];CUSTOM=[];cur=null;showErr("");render()}catch(e){showErr("Gagal menghapus data: "+e.message)}},"Hapus semua","Batal",true);
+ }
+}
+function setTarget(n){ // ganti target tanpa menghapus hitungan
+ if(cur)setCur({...cur,target:n,updatedAt:new Date().toISOString()});saveSettings({defaultSessionTarget:n});render();
+}
+/* ===== Backup ===== */
+function exportJSON(){
+ const data={app:"tasbih-nur",version:FMT,exportedAt:new Date().toISOString(),settings:ST,dhikr:CUSTOM,sessions:S};
+ try{const b=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="tasbih-nur-backup-"+ld(new Date())+".json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+  dialog(`<p>File cadangan dibuat: <b>${a.download}</b> (${S.length} sesi, ${CUSTOM.length} dzikir khusus).</p>`,null,"","Tutup")}catch(e){showErr("Ekspor gagal: "+e.message)}
+}
+const isDate=v=>typeof v==="string"&&!isNaN(Date.parse(v));
+function validate(o){
+ if(!o||typeof o!=="object"||o.app!=="tasbih-nur")throw new Error("Bukan file cadangan Tasbih Nur");
+ if(o.version!==FMT)throw new Error("Versi format tidak didukung: "+o.version);
+ if(!Array.isArray(o.sessions)||!Array.isArray(o.dhikr))throw new Error("Struktur data tidak valid");
+ const ss=o.sessions.map((s,i)=>{
+  if(!s||typeof s.id!=="string"||typeof s.dhikrId!=="string"||!Number.isInteger(s.count)||s.count<0||s.count>1e7||!Number.isInteger(s.target)||s.target<1||s.target>1e7||!["completed","partial","active"].includes(s.status)||!isDate(s.startedAt)||!isDate(s.updatedAt)||(s.completedAt!=null&&!isDate(s.completedAt)))throw new Error("Sesi ke-"+(i+1)+" tidak valid");
+  return{id:s.id,dhikrId:s.dhikrId,count:s.count,target:s.target,status:s.status==="active"?"partial":s.status,startedAt:s.startedAt,updatedAt:s.updatedAt,completedAt:s.completedAt||s.updatedAt}});
+ const dd=o.dhikr.map((d,i)=>{if(!d||typeof d.id!=="string"||typeof d.name!=="string"||!d.name.trim())throw new Error("Dzikir ke-"+(i+1)+" tidak valid");
+  return{id:d.id,name:d.name.slice(0,60),arabic:String(d.arabic||"").slice(0,200),transliteration:String(d.transliteration||"").slice(0,120),translation:String(d.translation||"").slice(0,200),isCustom:true,createdAt:isDate(d.createdAt)?d.createdAt:new Date().toISOString()}});
+ return{ss,dd};
+}
+$("#file").onchange=async e=>{
+ const f=e.target.files[0];e.target.value="";if(!f)return;
+ try{const {ss,dd}=validate(JSON.parse(await f.text()));
+  const ids=new Set(S.map(s=>s.id)),dids=new Set(allDhikr().map(d=>d.id)),ns=ss.filter(s=>!ids.has(s.id)),nd=dd.filter(d=>!dids.has(d.id));
+  dialog(`<h2 style="margin:0 0 8px">Impor cadangan</h2><p>Ditambahkan: <b>${ns.length}</b> sesi baru dan <b>${nd.length}</b> dzikir khusus baru. ${ss.length-ns.length} sesi sudah ada dan dilewati. Data yang ada tidak ditimpa.</p>`,async()=>{
+   try{await tx(["sessions","dhikr"],"readwrite",t=>{ns.forEach(s=>t.objectStore("sessions").put(s));nd.forEach(d=>t.objectStore("dhikr").put(d))});S.push(...ns);CUSTOM.push(...nd);render()}catch(x){showErr("Impor gagal, data lama tetap utuh: "+x.message)}},"Impor")
+ }catch(x){showErr("Impor ditolak: "+(x instanceof SyntaxError?"file bukan JSON yang valid":x.message))}
+};
+/* ===== Mulai ===== */
+if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+window.addEventListener("hashchange",render);
+window.addEventListener("online",()=>$("#top").innerHTML="");
+window.addEventListener("offline",()=>$("#top").innerHTML='<div class="off">Mode offline</div>');
+(async()=>{
+ try{const t=localStorage.getItem("tn-theme");if(t)ST.theme=t}catch(e){}applyTheme();
+ try{
+  db=await openDB();
+  const kv=await getAll("kv"),s=kv.find(x=>x.key==="settings");if(s)ST={...DEF,...s};
+  CUSTOM=await getAll("dhikr");S=await getAll("sessions");
+  const act=S.filter(x=>x.status==="active").sort((a,b)=>b.updatedAt.localeCompare(a.updatedAt));
+  cur=act[0]||null;act.slice(1).forEach(x=>{x.status="partial";x.completedAt=x.updatedAt;persist("sessions",x)}); // pastikan hanya satu sesi aktif
+  applyTheme();
+ }catch(e){noDB=true;sync="fail";showErr("Penyimpanan lokal tidak tersedia ("+e.message+"). Data tidak akan tersimpan setelah halaman ditutup.")}
+ render();
+})();
+</script>
+</body>
+</html>
